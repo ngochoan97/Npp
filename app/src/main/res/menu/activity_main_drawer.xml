@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/home"
+            android:title="@string/menu_home" />
+        <item
+            android:id="@+id/nav_news"
+            android:icon="@mipmap/news"
+            android:title="@string/menu_news" />
+        <item
+            android:id="@+id/nav_world"
+            android:icon="@mipmap/world"
+            android:title="@string/menu_world" />
+        <item
+            android:id="@+id/nav_business"
+            android:icon="@mipmap/bussines"
+            android:title="@string/menu_business" />
+        <item
+            android:id="@+id/nav_startup"
+            android:icon="@mipmap/startup"
+            android:title="@string/menu_startup" />
+        <item
+            android:id="@+id/nav_entertainment"
+            android:icon="@mipmap/entertainment"
+            android:title="@string/menu_entertainment" />
+        <item
+            android:id="@+id/nav_sport"
+            android:icon="@mipmap/sports"
+            android:title="@string/menu_sport" />
+        <item
+            android:id="@+id/nav_law"
+            android:icon="@mipmap/law"
+            android:title="@string/menu_law" />
+        <item
+            android:id="@+id/nav_education"
+            android:icon="@mipmap/education"
+            android:title="@string/menu_education" />
+        <item
+            android:id="@+id/nav_health"
+            android:icon="@mipmap/health"
+            android:title="@string/menu_health" />
+        <item
+            android:id="@+id/nav_life"
+            android:icon="@mipmap/life"
+            android:title="@string/menu_life" />
+        <item
+            android:id="@+id/nav_travel"
+            android:icon="@mipmap/travel"
+            android:title="@string/menu_travel" />
+        <item
+            android:id="@+id/nav_science"
+            android:icon="@mipmap/brain"
+            android:title="@string/menu_science" />
+        <item
+            android:id="@+id/nav_digitizing"
+            android:icon="@mipmap/digi"
+            android:title="@string/menu_digitalize" />
+        <item
+            android:id="@+id/nav_car"
+            android:icon="@mipmap/car"
+            android:title="@string/menu_car" />
+        <item
+            android:id="@+id/nav_talk"
+            android:icon="@mipmap/comment"
+            android:title="@string/menu_talk" />
+        <item
+            android:id="@+id/nav_comment"
+            android:icon="@mipmap/talk"
+            android:title="@string/menu_comment" />
+        <item
+            android:id="@+id/nav_laugh"
+            android:icon="@mipmap/laughing"
+            android:title="@string/menu_laugh" />
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/menu_share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/menu_send" />
+        </menu>
+    </item>
+
+</menu>

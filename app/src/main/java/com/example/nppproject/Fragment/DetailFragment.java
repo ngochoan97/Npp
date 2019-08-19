@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,9 +33,10 @@ import java.util.ArrayList;
  */
 public class DetailFragment extends Fragment {
     TextView tvTitle,tvShortTitle,tvTime,tvContent;
-    ImageView imgContent;
+ //   ImageView imgContent;
     RecyclerView rvContent;
-    private static ArrayList<ContentEntity> mListContent;
+    ProgressBar progressBar;
+    private static ArrayList<ContentEntity>mListContent;
     Element element;
 
     public static DetailFragment newInstance(String url) {
@@ -56,12 +58,14 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         Toast.makeText(getActivity(), "" + getArguments().getString("url"), Toast.LENGTH_SHORT).show();
-        tvTitle= view.findViewById(R.id.tvTitle);
-        tvShortTitle= view.findViewById(R.id.tvShortTitle);
-        tvTime= view.findViewById(R.id.tvTime);
         tvContent= view.findViewById(R.id.tvContent);
-        imgContent=view.findViewById(R.id.imgContent);
+        //imgContent=view.findViewById(R.id.imgContent);
         rvContent=view.findViewById(R.id.rvDetail);
+        progressBar=view.findViewById(R.id.process);
+        tvTitle=view.findViewById(R.id.tvTitle);
+        tvShortTitle=view.findViewById(R.id.tvShortTitle);
+        tvTime=view.findViewById(R.id.tvTime);
+
         new HtmlReader().execute();
 
         // Inflate the layout for this fragment
@@ -81,13 +85,16 @@ public class DetailFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(getActivity(), "" + contentEntity.getTittle(), Toast.LENGTH_SHORT).show();
-            tvTitle.setText(contentEntity.getTittle());
+           // Toast.makeText(getActivity(), "" + contentEntity.getTittle(), Toast.LENGTH_SHORT).show();
+            progressBar.setVisibility(View.GONE);
             tvShortTitle.setText(contentEntity.getShortTittle());
+            tvTitle.setText(contentEntity.getTittle());
             tvTime.setText(contentEntity.getPubDate());
+
             ContentAdapter contentAdapter = new ContentAdapter(mListContent);
             rvContent.setAdapter(contentAdapter);
             contentAdapter.notifyDataSetChanged();
+
         }
     }
 
@@ -121,7 +128,16 @@ public class DetailFragment extends Fragment {
                     if (listContent.get(i).is("P.Normal")||listContent.get(i).is("p.MsNormal")){
                         mListContent.add(listContent.get(i).text());
                     }
-                    else {}
+
+                    else {
+                        if (listContent.get(i).is("table.tplCaption")){
+                           Elements table = document.select("table.tplCaption");
+                            Elements td=table.select("td");
+                            Elements img=td.select("img");
+                           // Elements srcImg=img.select("img.src");
+                            mListContent.add(img.attr("src"));
+                        }
+                    }
 
                 }
             }

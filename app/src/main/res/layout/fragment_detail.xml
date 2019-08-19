@@ -13,22 +13,28 @@
 
         <TextView
             android:id="@+id/tvTitle"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="bold"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/tvShortTitle"
+            android:textSize="@dimen/_7sdp"
+            android:textStyle="bold"
+            android:gravity="left"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvTitle" />
 
         <TextView
             android:id="@+id/tvTime"
+            android:textStyle="italic"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tvShortTitle"
-            android:textSize="@dimen/_10sdp"
+            android:textSize="@dimen/_5sdp"
             android:gravity="right"
             />
 

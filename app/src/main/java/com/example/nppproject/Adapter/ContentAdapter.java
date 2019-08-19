@@ -1,6 +1,7 @@
 package com.example.nppproject.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,18 +41,19 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 
         try {
             ContentEntity contentEntity = mlistContent.get(position);
-            String title = contentEntity.getTittle();
-            String time = contentEntity.getPubDate();
+//            String title = contentEntity.getTittle();
+//            String time = contentEntity.getPubDate();
 
             ArrayList<String> content=contentEntity.getContent();
-            String shortTitle = contentEntity.getShortTittle();
-            String urlImg = contentEntity.getUrlImg();
-            holder.tvTitle.setText(title);
-            holder.tvShortTitle.setText(shortTitle);
-            holder.tvTime.setText(time);
-            if (){holder.tvContent.setText(content);}
-            else{
-            Glide.with(mContext).load(content).into(holder.imgContent);}
+     //       String shortTitle = contentEntity.getShortTittle();
+       //     String urlImg = contentEntity.getUrlImg();
+//            holder.tvTitle.setText(title);
+////            holder.tvShortTitle.setText(shortTitle);
+////            holder.tvTime.setText(time);
+////            Log.d("alt",shortTitle);
+//            if (){holder.tvContent.setText();}
+//            else{
+//            Glide.with(mContext).load(content).into(holder.imgContent);}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,10 +71,10 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvTitle=itemView.findViewById(R.id.tvTitle);
-            tvShortTitle=itemView.findViewById(R.id.tvShortTitle);
+//            tvTitle=itemView.findViewById(R.id.tvTitle);
+//            tvShortTitle=itemView.findViewById(R.id.tvShortTitle);
+//            tvTime=itemView.findViewById(R.id.tvTime);
             tvContent=itemView.findViewById(R.id.tvContent);
-            tvTime=itemView.findViewById(R.id.tvTime);
             imgContent=itemView.findViewById(R.id.imgContent);
 
         }

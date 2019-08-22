@@ -2,6 +2,7 @@ package com.example.nppproject.Adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,22 @@ import com.example.nppproject.Entity.ContentEntity;
 import com.example.nppproject.R;
 
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHolder> {
-    ArrayList<ContentEntity> mlistContent;
+    ArrayList<String> mListContent;
+    ContentEntity contentEntity;
     Context mContext;
 
-    public ContentAdapter(ArrayList<ContentEntity> mlistContent) {
-        this.mlistContent = mlistContent;
-    }
+    String REGEX_SPLIT_IMG_URL = "(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpeg|jpg|gif|png)";
 
+//    public ContentAdapter(ArrayList<ContentEntity> mListContent) {
+//        this.mListContent = mListContent;
+//    }
+
+    public ContentAdapter(ArrayList<String> content) {
+        this.mListContent = content;
+    }
 
 
     @NonNull
@@ -40,20 +48,25 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
     public void onBindViewHolder(@NonNull ContentAdapter.MyViewHolder holder, int position) {
 
         try {
-            ContentEntity contentEntity = mlistContent.get(position);
-//            String title = contentEntity.getTittle();
-//            String time = contentEntity.getPubDate();
+            //        ContentEntity contentEntity = mListContent.get(position);
 
-            ArrayList<String> content=contentEntity.getContent();
-     //       String shortTitle = contentEntity.getShortTittle();
-       //     String urlImg = contentEntity.getUrlImg();
-//            holder.tvTitle.setText(title);
-////            holder.tvShortTitle.setText(shortTitle);
-////            holder.tvTime.setText(time);
-////            Log.d("alt",shortTitle);
-//            if (){holder.tvContent.setText();}
+//             mListContent=contentEntity.getContent();
+
+            //String urlImg = contentEntity.getUrlImg();
+
+            String content = mListContent.get(position);
+            if (mListContent.get(position) == REGEX_SPLIT_IMG_URL) {
+
+                Glide.with(mContext).load(content).into(holder.imgContent);
+            } else {
+                holder.tvContent.setText(content);
+            }
+
+
+//            if (listContent){Glide.with(mContext).load(content).into(holder.imgContent);}
 //            else{
-//            Glide.with(mContext).load(content).into(holder.imgContent);}
+//                holder.tvContent.setText(content);
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,7 +74,7 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mListContent.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -74,9 +87,10 @@ public class ContentAdapter extends RecyclerView.Adapter<ContentAdapter.MyViewHo
 //            tvTitle=itemView.findViewById(R.id.tvTitle);
 //            tvShortTitle=itemView.findViewById(R.id.tvShortTitle);
 //            tvTime=itemView.findViewById(R.id.tvTime);
-            tvContent=itemView.findViewById(R.id.tvContent);
-            imgContent=itemView.findViewById(R.id.imgContent);
+            tvContent = itemView.findViewById(R.id.tvContent);
+            imgContent = itemView.findViewById(R.id.imgContent);
 
         }
     }
+
 }

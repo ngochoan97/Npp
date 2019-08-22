@@ -24,6 +24,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,11 +33,13 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    TextView tvTitle,tvShortTitle,tvTime,tvContent;
- //   ImageView imgContent;
+    TextView tvTitle, tvShortTitle, tvTime, tvContent;
+    ImageView imgContent;
     RecyclerView rvContent;
     ProgressBar progressBar;
-    private static ArrayList<ContentEntity>mListContent;
+  //  private static ArrayList<ContentEntity> mListContent = new ArrayList<>();
+
+    ContentEntity contentEntity = new ContentEntity();
     Element element;
 
     public static DetailFragment newInstance(String url) {
@@ -58,13 +61,13 @@ public class DetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
         Toast.makeText(getActivity(), "" + getArguments().getString("url"), Toast.LENGTH_SHORT).show();
-        tvContent= view.findViewById(R.id.tvContent);
-        //imgContent=view.findViewById(R.id.imgContent);
-        rvContent=view.findViewById(R.id.rvDetail);
-        progressBar=view.findViewById(R.id.process);
-        tvTitle=view.findViewById(R.id.tvTitle);
-        tvShortTitle=view.findViewById(R.id.tvShortTitle);
-        tvTime=view.findViewById(R.id.tvTime);
+        tvContent = view.findViewById(R.id.tvContent);
+        imgContent = view.findViewById(R.id.imgContent);
+        rvContent = view.findViewById(R.id.rvDetail);
+        progressBar = view.findViewById(R.id.process);
+        tvTitle = view.findViewById(R.id.tvTitle);
+        tvShortTitle = view.findViewById(R.id.tvShortTitle);
+        tvTime = view.findViewById(R.id.tvTime);
 
         new HtmlReader().execute();
 
@@ -79,26 +82,27 @@ public class DetailFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             getHtml(getArguments().getString("url"));
+            Log.d("mll", "doInBackground: "+getArguments().getString("url"));
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-           // Toast.makeText(getActivity(), "" + contentEntity.getTittle(), Toast.LENGTH_SHORT).show();
+
             progressBar.setVisibility(View.GONE);
             tvShortTitle.setText(contentEntity.getShortTittle());
             tvTitle.setText(contentEntity.getTittle());
             tvTime.setText(contentEntity.getPubDate());
 
-            ContentAdapter contentAdapter = new ContentAdapter(mListContent);
+            ContentAdapter contentAdapter = new ContentAdapter(contentEntity.getContent());
             rvContent.setAdapter(contentAdapter);
             contentAdapter.notifyDataSetChanged();
 
         }
     }
 
-    ContentEntity contentEntity = new ContentEntity();
+
     public void getHtml(String url) {
 
         //Document document;
@@ -109,43 +113,77 @@ public class DetailFragment extends Fragment {
 
             Log.d("dcm", s);
             if (s.contains(" - ")) {
-                contentEntity.setTittle(s.substring(0,s.indexOf(" - "))); }
-            else{
+                contentEntity.setTittle(s.substring(0, s.indexOf(" - ")));
+            } else {
                 contentEntity.setTittle(s);
             }
-            Elements description=document.select("p.description");
-            if (description.size()>0){
-                contentEntity.setShortTittle("\t\t"+description.first().text());
+            Elements description = document.select("p.description");
+            if (description.size() > 0) {
+                contentEntity.setShortTittle("\t\t" + description.first().text());
             }
             Elements time = document.select("span.time.left");
-            if (time.size()>0){
+            if (time.size() > 0) {
                 contentEntity.setPubDate(time.first().text());
             }
-            Elements listContent=document.select("p.Normal,p.MsNormal,table.tplCaption");
-            if(listContent.size()>0){
-                ArrayList<String>mListContent= new ArrayList<>();
-                for (int i=0;i<listContent.size();i++){
-                    if (listContent.get(i).is("P.Normal")||listContent.get(i).is("p.MsNormal")){
-                        mListContent.add(listContent.get(i).text());
-                    }
+            Elements listContent = document.select("p.Normal,p.MsNormal,table.tplCaption");
+            if (listContent.size() > 0) {
+                ArrayList<String> mListContent = new ArrayList<>();
+                for (int i = 0; i < listContent.size(); i++) {
 
-                    else {
-                        if (listContent.get(i).is("table.tplCaption")){
-                           Elements table = document.select("table.tplCaption");
-                            Elements td=table.select("td");
-                            Elements img=td.select("img");
-                           // Elements srcImg=img.select("img.src");
+                    if (listContent.get(i).is("p.Normal") || listContent.get(i).is("p.MsNormal")) {
+                        mListContent.add(listContent.get(i).text());
+                    } else {
+                        if (listContent.get(i).is("table.tplCaption")) {
+                            Elements table = document.select("table.tplCaption");
+                            Elements td = table.select("td");
+                            Elements img = td.select("img");
+                            // Elements srcImg=img.select("img.src");
                             mListContent.add(img.attr("src"));
+
+
+
                         }
                     }
-
                 }
-            }
+                contentEntity.setContent(mListContent);
+                Log.d("arr", "getHtml: "+mListContent);
 
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Log.d("logd", "getHtml: ");
+
 
     }
+//    public void parserHtml() {
+//        mListContent = new ArrayList<>();
+//
+//        for (int i = 0; i < nodeList.getLength(); i++) {
+//            Element element = (Element) nodeList.item(i);
+//            ContentEntity contentEntity = new ContentEntity();
+//            contentEntity.setTittle();
+//            contentEntity.setPubDate();
+//            contentEntity.setShortTittle();
+//            mListContent.add(contentEntity);
+//        }
+//
+//        int count = 0;
+//        for (int i = 0; i < nodeDes.getLength(); i++) {
+//            if (i < 1) {
+//            } else {
+//                Node node = nodeDes.item(i);
+//                if (node.getTextContent().trim().equals("No Description")) {
+//                    continue;
+//                } else {
+//                    String des = node.getTextContent();
+//                    mListContent.get(count).setDescription(des);
+//                    mListContent.get(count).setUrlImg(getUrlImgFromDes(des));
+//                    count++;
+//                }
+//            }
+//        }
+//    }
+
 
 }

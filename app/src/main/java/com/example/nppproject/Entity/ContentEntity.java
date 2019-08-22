@@ -9,6 +9,10 @@ public class ContentEntity {
     String urlImg;
     ArrayList<String> content;
 
+    public ContentEntity(ArrayList<String> content) {
+        this.content = content;
+    }
+
     public ArrayList<String> getContent() {
         return content;
     }

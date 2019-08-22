@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> {
 
     ArrayList<PostEntity> mListPost;
+
     Context mContext;
     static ClickListener mClickListener;
 

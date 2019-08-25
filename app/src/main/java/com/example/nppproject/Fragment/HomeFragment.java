@@ -102,9 +102,9 @@ public class HomeFragment extends Fragment {
                 public void onItemClick(View view, int position) {
                     String url = mListPost.get(position).getLink();
                     Toast.makeText(getActivity(), "đã click", Toast.LENGTH_SHORT).show();
-                    DetailFragment detailFragment = DetailFragment.newInstance(url);
+                    DetailFragment detailFragment = DetailFragment.newInstance(url,mListPost);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
-                    Toast.makeText(getActivity(), "" + url, Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getActivity(), "" + url, Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -46,7 +46,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             String time = postEntity.getTime();
             holder.tvTitle.setText(title);
             holder.tvTime.setText(time);
-            Glide.with(mContext).load(urlImg).into(holder.imgPost);
+            Glide.with(mContext).load(urlImg).placeholder(R.drawable.ic_menu_share).into(holder.imgPost);
         } catch (Exception e) {
             e.printStackTrace();
         }

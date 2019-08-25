@@ -30,6 +30,7 @@ public class ContentEntity {
     }
 
     public ContentEntity() {
+
     }
 
     public String getTittle() {

@@ -2,6 +2,7 @@ package com.example.nppproject.Fragment;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -11,12 +12,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.nppproject.Adapter.PostAdapter;
 import com.example.nppproject.Entity.PostEntity;
+import com.example.nppproject.Public.PublicMethod;
 import com.example.nppproject.R;
+import com.example.nppproject.SQL.SQLHelper;
 import com.example.nppproject.XMLDOMParser;
 
 import org.w3c.dom.Document;
@@ -35,13 +40,16 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment {
+    SQLHelper sqlHelper;
+    Context mContext;
     private static ArrayList<PostEntity> mListPost;
     RecyclerView rvPost;
     PostAdapter postAdapter;
     ProgressBar progressBar;
+    ImageView imgNetwork;
     private static final String TAG = "HomeFragment";
     static String urlRss;
-
+    PublicMethod publicMethod= new PublicMethod();
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -63,11 +71,20 @@ public class HomeFragment extends Fragment {
         View view;
         view = inflater.inflate(R.layout.fragment_home, container, false);
         urlRss = getArguments().getString("rssUrl");
-        Toast.makeText(getActivity(), "" + urlRss, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getActivity(), "" + urlRss, Toast.LENGTH_SHORT).show();
         rvPost = view.findViewById(R.id.rvHomePost);
+        imgNetwork=view.findViewById(R.id.imgNetwork);
         progressBar = view.findViewById(R.id.process);
-
-        new RSSReader().execute();
+        if (publicMethod.checkConnectInternet(getContext())==false)
+        {Toast.makeText(getContext(), "Mất mạng rồi", Toast.LENGTH_SHORT).show();
+//            Glide.with(mContext).load(R.mipmap.crop).into(imgNetwork);
+        imgNetwork.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            //imgNetwork.setVisibility(View.GONE);
+            new RSSReader().execute();
+        }
         return view;
     }
 
@@ -92,21 +109,28 @@ public class HomeFragment extends Fragment {
         protected void onPostExecute(Void aVoid) {
             progressBar.setVisibility(View.GONE);
             super.onPostExecute(aVoid);
+
 //            Log.d(TAG, "onPostExecute: " + mListPost.get(0).getTitle());
             postAdapter = new PostAdapter(mListPost);
+
             rvPost.setAdapter(postAdapter);
             postAdapter.notifyDataSetChanged();
-            Toast.makeText(getActivity(), "" + mListPost.size(), Toast.LENGTH_SHORT).show();
+           // Toast.makeText(getActivity(), "" + mListPost.size(), Toast.LENGTH_SHORT).show();
             postAdapter.setOnItemClickListener(new PostAdapter.ClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
                     String url = mListPost.get(position).getLink();
-                    Toast.makeText(getActivity(), "đã click", Toast.LENGTH_SHORT).show();
+                    String title= mListPost.get(position).getTitle();
+                    //Toast.makeText(getActivity(), "đã click", Toast.LENGTH_SHORT).show();
                     DetailFragment detailFragment = DetailFragment.newInstance(url,mListPost);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).commit();
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).addToBackStack("stack").commit();
+                    sqlHelper= new SQLHelper(getContext());
+                    sqlHelper.insertContent(title, url);
                   //  Toast.makeText(getActivity(), "" + url, Toast.LENGTH_SHORT).show();
+
                 }
             });
+            back();
         }
     }
 
@@ -167,4 +191,5 @@ public class HomeFragment extends Fragment {
         String url = des.substring(start, end);
         return url;
     }
+    public void back(){getActivity().getSupportFragmentManager().popBackStack();}
 }

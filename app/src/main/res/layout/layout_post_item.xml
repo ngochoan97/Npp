@@ -2,14 +2,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_5sdp"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
+
+    android:orientation="vertical">
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardElevation="@dimen/_5sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    ><LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+    <ImageView
+        android:id="@+id/imgTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tvTitleTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_10sdp"/>
+
+    <TextView
+        android:id="@+id/tvTimeTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        >
     <ImageView
         android:id="@+id/imgPost"
-        android:layout_width="@dimen/_50sdp"
+        android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_50sdp"
-        android:src="@mipmap/ic_launcher"
+
 
         />
 <LinearLayout
@@ -19,14 +52,14 @@
     android:orientation="vertical"
     android:layout_gravity="center">
     <TextView
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
         android:id="@+id/tvTitle"
         android:textSize="@dimen/_10sdp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/imgPost"
-        android:text="nội dung" />
+         />
 
     <TextView
         android:id="@+id/tvTime"
@@ -36,8 +69,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
-        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
         android:layout_toRightOf="@id/imgPost"
-        android:text="time" />
+        />
 </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
 </LinearLayout>

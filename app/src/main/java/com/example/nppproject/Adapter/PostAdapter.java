@@ -39,14 +39,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+//        Glide.with(mContext).load(R.mipmap.crop).into(holder.imgNetwork);
         try {
             PostEntity postEntity = mListPost.get(position);
-            String title = postEntity.getTitle();
-            String urlImg = postEntity.getUrlImg();
-            String time = postEntity.getTime();
-            holder.tvTitle.setText(title);
-            holder.tvTime.setText(time);
-            Glide.with(mContext).load(urlImg).placeholder(R.drawable.ic_menu_share).into(holder.imgPost);
+            if (position == 0) {
+                holder.tvTitleTop.setText(postEntity.getTitle());
+                holder.tvTimeTop.setText(postEntity.getTime());
+                Glide.with(mContext).load(postEntity.getUrlImg()).placeholder(R.drawable.ic_menu_share).into(holder.imgTop);
+            } else {
+                String title = postEntity.getTitle();
+                String urlImg = postEntity.getUrlImg();
+                String time = postEntity.getTime();
+                holder.tvTitle.setText(title);
+                holder.tvTime.setText(time);
+                Glide.with(mContext).load(urlImg).placeholder(R.drawable.ic_menu_share).into(holder.imgPost);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -59,17 +66,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     }
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imgPost;
-        TextView tvTitle, tvTime;
+        ImageView imgPost,imgTop,imgNetwork;
+        TextView tvTitle, tvTime,tvTimeTop,tvTitleTop;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             imgPost = itemView.findViewById(R.id.imgPost);
+            imgTop = itemView.findViewById(R.id.imgTop);
+            imgNetwork = itemView.findViewById(R.id.imgNetwork);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTime = itemView.findViewById(R.id.tvTime);
+            tvTimeTop = itemView.findViewById(R.id.tvTimeTop);
+            tvTitleTop = itemView.findViewById(R.id.tvTitleTop);
         }
 
         @Override

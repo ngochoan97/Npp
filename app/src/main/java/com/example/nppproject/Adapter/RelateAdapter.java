@@ -13,16 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.nppproject.Entity.PostEntity;
 import com.example.nppproject.R;
+import com.example.nppproject.interfaces.ClickListener;
 
 import java.util.ArrayList;
 
 public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHolder> {
-    ArrayList<PostEntity> mListRelate;
+    ArrayList<PostEntity> mListPost;
     Context mContext;
+    static ClickListener mClickListener;
 
-    public RelateAdapter(ArrayList<PostEntity> mListRelate) {
+    public RelateAdapter(ArrayList<PostEntity> mListPost) {
 
-        this.mListRelate = mListRelate;
+        this.mListPost = mListPost;
     }
 
     @NonNull
@@ -36,10 +38,10 @@ public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHold
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
-            PostEntity postEntity=mListRelate.get(position);
-            String title=postEntity.getTitle();
-            String urlImg=postEntity.getUrlImg();
-            String time=postEntity.getTime();
+            PostEntity postEntity = mListPost.get(position);
+            String title = postEntity.getTitle();
+            String urlImg = postEntity.getUrlImg();
+            String time = postEntity.getTime();
             holder.tvTitle.setText(title);
             holder.tvTime.setText(time);
             Glide.with(mContext).load(urlImg).into(holder.imgPost);
@@ -50,18 +52,34 @@ public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHold
 
     @Override
     public int getItemCount() {
-        return mListRelate.size();
+        return mListPost.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imgPost;
-        TextView tvTitle,tvTime;
+        TextView tvTitle, tvTime;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            tvTime = itemView.findViewById(R.id.tvTime);
+            tvTitle = itemView.findViewById(R.id.tvTitle);
+            imgPost = itemView.findViewById(R.id.imgPost);
+        }
 
-            tvTime=itemView.findViewById(R.id.tvTime);
-            tvTitle=itemView.findViewById(R.id.tvTitle);
-            imgPost=itemView.findViewById(R.id.imgPost);
+
+        @Override
+        public void onClick(View view) {
+            mClickListener.onItemClick(view, getAdapterPosition());
         }
     }
+
+    public void setOnClickListener(ClickListener clickListener) {
+        RelateAdapter.mClickListener = clickListener;
+    }
+
+    public interface ClickListener {
+        void onItemClick(View view, int position);
+    }
+
 }

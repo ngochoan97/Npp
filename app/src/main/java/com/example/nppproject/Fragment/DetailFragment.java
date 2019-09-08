@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.example.nppproject.Adapter.ContentAdapter;
 import com.example.nppproject.Adapter.PostAdapter;
@@ -39,8 +41,11 @@ public class DetailFragment extends Fragment {
     TextView tvTitle, tvShortTitle, tvTime, tvContent,tvRelate;
     ImageView imgContent;
     PostAdapter postAdapter;
+    RelateAdapter relateAdapter;
     RecyclerView rvContent,rvRelate;
     ProgressBar progressBar;
+    Toolbar toolbar;
+
     private static ArrayList<PostEntity> mListPost=new ArrayList<>();
      // private static ArrayList<ContentEntity> mListContent = new ArrayList<>();
 
@@ -76,6 +81,7 @@ public class DetailFragment extends Fragment {
         tvShortTitle = view.findViewById(R.id.tvShortTitle);
         tvTime = view.findViewById(R.id.tvTime);
         tvRelate=view.findViewById(R.id.tvRelate);
+        toolbar=view.findViewById(R.id.toolbar);
         mListPost= (ArrayList<PostEntity>) getArguments().getSerializable("mListPost");
 
         new HtmlReader().execute();
@@ -83,6 +89,7 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
 
         return view;
+
     }
 
     String s;
@@ -92,7 +99,7 @@ public class DetailFragment extends Fragment {
         @Override
         protected Void doInBackground(Void... voids) {
             getHtml(getArguments().getString("url"));
-            Log.d("mll", "doInBackground: " + getArguments().getString("url"));
+            //Log.d("mll", "doInBackground: " + getArguments().getString("url"));
             return null;
         }
 
@@ -108,20 +115,37 @@ public class DetailFragment extends Fragment {
             ContentAdapter contentAdapter = new ContentAdapter(contentEntity.getContent());
             rvContent.setAdapter(contentAdapter);
             contentAdapter.notifyDataSetChanged();
-//            RelateAdapter relateAdapter=new RelateAdapter(mListRelate);
-//            rvRelate.setAdapter(relateAdapter);
-//            relateAdapter.notifyDataSetChanged();
-            PostAdapter postAdapter = new PostAdapter(mListPost);
-            rvRelate.setAdapter(postAdapter);
-            postAdapter.notifyDataSetChanged();
-            postAdapter.setOnItemClickListener(new PostAdapter.ClickListener() {
+           
+            RelateAdapter relateAdapter=new RelateAdapter(mListPost);
+            rvRelate.setAdapter(relateAdapter);
+            relateAdapter.notifyDataSetChanged();
+            relateAdapter.setOnClickListener(new RelateAdapter.ClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                String url=mListPost.get(position).getLink();
-                DetailFragment detailFragment=DetailFragment.newInstance(url,mListPost);
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
+                    String url=mListPost.get(position).getLink();
+                    DetailFragment detailFragment=DetailFragment.newInstance(url,mListPost);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).addToBackStack("stack").commit();
                 }
             });
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getBaseContext(),RecyclerView.VERTICAL,false);
+//            rvRelate.setAdapter(relateAdapter);
+//            rvRelate.setLayoutManager(layoutManager);
+//            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getBaseContext(), RecyclerView.VERTICAL, false);
+//            rvVideoCategory.setAdapter(new SubCategoryAdapter(videoListCategory));
+//            rvVideoCategory.setLayoutManager(layoutManager);
+
+
+//            PostAdapter postAdapter = new PostAdapter(mListPost);
+//            rvRelate.setAdapter(postAdapter);
+//            postAdapter.notifyDataSetChanged();
+//            postAdapter.setOnItemClickListener(new PostAdapter.ClickListener() {
+//                @Override
+//                public void onItemClick(View view, int position) {
+//                String url=mListPost.get(position).getLink();
+//                DetailFragment detailFragment=DetailFragment.newInstance(url,mListPost);
+//                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).commit();
+//                }
+//            });
 
         }
     }
@@ -150,7 +174,7 @@ public class DetailFragment extends Fragment {
             if (time.size() > 0) {
                 contentEntity.setPubDate(time.first().text());
             }
-            Elements listContent = document.select("p.Normal,p.MsNormal,table.tplCaption,article.content_detail.fck_detail.width_common.block_ads_connect");
+            Elements listContent = document.select("p.Normal,p.MsNormal,table.tplCaption,article.content_detail.fck_detail.width_common.block_ads_connect,img");
             if (listContent.size() > 0) {
                 ArrayList<String> mListContent = new ArrayList<>();
                 //  ArrayList<String> mListP = new ArrayList<>();
@@ -180,10 +204,10 @@ public class DetailFragment extends Fragment {
                             mListContent.add(p.get(j).text());
                         }
                     }
-//                    else if(listContent.get(i).is("img")){
-//                        Elements img2=listContent.get(i).select("img");
+//                    else if(listContent.get(i).is("img.vne_lazy_image.lazyLoaded")){
+//                        Elements img2=listContent.get(i).select("img.vne_lazy_image.lazyLoaded");
 //                        for(int b=0;b<img2.size();b++){
-//                            mListContent.add(img2.get(b).attr("src"));
+//                            mListContent.add(img2.get(b).attr("src.vne_lazy_image.lazyLoaded"));
 //                        }
 //                    }
 

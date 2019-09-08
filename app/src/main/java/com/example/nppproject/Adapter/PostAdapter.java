@@ -75,7 +75,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
             itemView.setOnClickListener(this);
             imgPost = itemView.findViewById(R.id.imgPost);
             imgTop = itemView.findViewById(R.id.imgTop);
-            imgNetwork = itemView.findViewById(R.id.imgNetwork);
+
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTime = itemView.findViewById(R.id.tvTime);
             tvTimeTop = itemView.findViewById(R.id.tvTimeTop);

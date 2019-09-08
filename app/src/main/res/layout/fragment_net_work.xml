@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.NetWorkFragment"
+    android:layout_gravity="center">
+
+    <!-- TODO: Update blank fragment layout -->
+   <ProgressBar
+       android:id="@+id/pgBar"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent" />
+
+  <Button
+      android:id="@+id/btnConnect"
+      android:text="@string/btn_Connect"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content" />
+
+</FrameLayout>

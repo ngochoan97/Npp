@@ -6,6 +6,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.constraintlayout.solver.GoalRow;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.nppproject.Adapter.PostAdapter;
 import com.example.nppproject.Entity.PostEntity;
+import com.example.nppproject.Globals;
 import com.example.nppproject.Public.PublicMethod;
 import com.example.nppproject.R;
 import com.example.nppproject.SQL.SQLHelper;
@@ -46,7 +48,7 @@ public class HomeFragment extends Fragment {
     RecyclerView rvPost;
     PostAdapter postAdapter;
     ProgressBar progressBar;
-    ImageView imgNetwork;
+
     private static final String TAG = "HomeFragment";
     static String urlRss;
     PublicMethod publicMethod= new PublicMethod();
@@ -70,15 +72,21 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view;
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        urlRss = getArguments().getString("rssUrl");
+        try {
+            urlRss = getArguments().getString("rssUrl");
+        }catch (Exception e){
+            urlRss = Globals.URL_HOME;
+        }
+
       //  Toast.makeText(getActivity(), "" + urlRss, Toast.LENGTH_SHORT).show();
         rvPost = view.findViewById(R.id.rvHomePost);
-        imgNetwork=view.findViewById(R.id.imgNetwork);
+       
         progressBar = view.findViewById(R.id.process);
         if (publicMethod.checkConnectInternet(getContext())==false)
         {Toast.makeText(getContext(), "Mất mạng rồi", Toast.LENGTH_SHORT).show();
 //            Glide.with(mContext).load(R.mipmap.crop).into(imgNetwork);
-        imgNetwork.setVisibility(View.VISIBLE);
+            NetWorkFragment netWorkFragment=NetWorkFragment.newInstance(urlRss);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,netWorkFragment).commit();
         }
         else
         {
@@ -186,10 +194,15 @@ public class HomeFragment extends Fragment {
     }
 
     public String getUrlImgFromDes(String des) {
-        int start = des.lastIndexOf("https:");
-        int end = des.lastIndexOf("\"");
-        String url = des.substring(start, end);
-        return url;
+        try{
+            int start = des.lastIndexOf("https:");
+            int end = des.lastIndexOf("\"");
+            String url = des.substring(start, end);
+            return url;
+        }catch (Exception e){
+            return "http://leeford.in/wp-content/uploads/2017/09/image-not-found.jpg";
+        }
+
     }
     public void back(){getActivity().getSupportFragmentManager().popBackStack();}
 }

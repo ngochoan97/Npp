@@ -24,6 +24,7 @@ import com.example.nppproject.Adapter.RelateAdapter;
 import com.example.nppproject.Entity.ContentEntity;
 import com.example.nppproject.Entity.PostEntity;
 import com.example.nppproject.R;
+import com.example.nppproject.SQL.SQLHelper;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -45,6 +46,8 @@ public class DetailFragment extends Fragment {
     RecyclerView rvContent,rvRelate;
     ProgressBar progressBar;
     Toolbar toolbar;
+    String saveDoc;
+    SQLHelper sqlHelper;
 
     private static ArrayList<PostEntity> mListPost=new ArrayList<>();
      // private static ArrayList<ContentEntity> mListContent = new ArrayList<>();
@@ -71,7 +74,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-        Toast.makeText(getActivity(), "" + getArguments().getString("url"), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getActivity(), "" + getArguments().getString("url"), Toast.LENGTH_SHORT).show();
         tvContent = view.findViewById(R.id.tvContent);
         imgContent = view.findViewById(R.id.imgContent);
         rvContent = view.findViewById(R.id.rvDetail);
@@ -156,8 +159,10 @@ public class DetailFragment extends Fragment {
         //Document document;
         try {
             Document document = Jsoup.connect(url).get();
+            saveDoc=document.html();
             //document= Jsoup.connect(url).get();
             s = document.title();
+
 
             Log.d("dcm", s);
             if (s.contains(" - ")) {
@@ -214,6 +219,8 @@ public class DetailFragment extends Fragment {
                 }
                 contentEntity.setContent(mListContent);
                 Log.d("arr", "getHtml: " + mListContent);
+                sqlHelper= new SQLHelper(getContext());
+                sqlHelper.insertContent(s, saveDoc);
             }
 
 

@@ -71,7 +71,15 @@ public class SQLHelper extends SQLiteOpenHelper {
         sqLiteDatabase.insert(DB_NAME_TABLE, null, contentValues);
         closeDB();
     }
-
+    public boolean deleteAll(){
+        int result;
+        sqLiteDatabase = getWritableDatabase();
+        result=sqLiteDatabase.delete(DB_NAME_TABLE, null, null);
+        closeDB();
+        if (result==1)
+            return true;
+        else return false;
+    }
     public List<ContentSaveEntity> getAllContent(){
         List<ContentSaveEntity> list= new ArrayList<>();
         ContentSaveEntity entity;

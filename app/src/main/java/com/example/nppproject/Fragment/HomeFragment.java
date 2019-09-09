@@ -132,8 +132,7 @@ public class HomeFragment extends Fragment {
                     //Toast.makeText(getActivity(), "đã click", Toast.LENGTH_SHORT).show();
                     DetailFragment detailFragment = DetailFragment.newInstance(url,mListPost);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).addToBackStack("stack").commit();
-                    sqlHelper= new SQLHelper(getContext());
-                    sqlHelper.insertContent(title, url);
+
                   //  Toast.makeText(getActivity(), "" + url, Toast.LENGTH_SHORT).show();
 
                 }

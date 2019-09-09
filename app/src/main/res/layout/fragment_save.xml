@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcvSave"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></androidx.recyclerview.widget.RecyclerView>
-</LinearLayout>
+        android:layout_height="wrap_content"></androidx.recyclerview.widget.RecyclerView>
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/btnDelAll"
+        android:text="@string/btn_Delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" /></RelativeLayout>
+
+</FrameLayout>

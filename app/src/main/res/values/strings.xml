@@ -7,6 +7,7 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Bài viết đã đọc</string>
     <string name="btn_Connect">Connect</string>
+    <string name="btn_Delete">Delete All</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_news">News</string>

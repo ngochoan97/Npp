@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             FragmentManager fragmentManager = getSupportFragmentManager();
             SaveFragment saveFragment = SaveFragment.newInstance();
-            fragmentManager.beginTransaction().replace(R.id.container, saveFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.container, saveFragment).addToBackStack("stack").commit();
             return true;
         }
 

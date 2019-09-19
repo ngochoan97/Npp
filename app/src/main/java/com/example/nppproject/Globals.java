@@ -19,6 +19,9 @@ public class Globals {
     public static final String URL_COMMENT = "https://vnexpress.net/rss/y-kien.rss";
     public static final String URL_TALK = "https://vnexpress.net/rss/tam-su.rss";
     public static final String URL_LAUGH = "https://vnexpress.net/rss/cuoi.rss";
+    public static final String URL_HOTVIDEO = "https://demo5639557.mockable.io/getVideoHot";
+    public static final String URL_CATEGORY = "https://demo5639557.mockable.io/getVideoHot";
+
 
 
 }

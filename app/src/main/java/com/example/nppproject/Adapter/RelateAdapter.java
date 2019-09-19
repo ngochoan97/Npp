@@ -30,7 +30,7 @@ public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHold
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_post_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item, parent, false);
         mContext = parent.getContext();
         return new MyViewHolder(view);
     }
@@ -39,12 +39,14 @@ public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         try {
             PostEntity postEntity = mListPost.get(position);
+
             String title = postEntity.getTitle();
             String urlImg = postEntity.getUrlImg();
             String time = postEntity.getTime();
             holder.tvTitle.setText(title);
             holder.tvTime.setText(time);
             Glide.with(mContext).load(urlImg).into(holder.imgPost);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,8 +58,8 @@ public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHold
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imgPost;
-        TextView tvTitle, tvTime;
+        ImageView imgPost, imgTop;
+        TextView tvTitle, tvTime, tvTimeTop, tvTitleTop;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -65,6 +67,7 @@ public class RelateAdapter extends RecyclerView.Adapter<RelateAdapter.MyViewHold
             tvTime = itemView.findViewById(R.id.tvTime);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             imgPost = itemView.findViewById(R.id.imgPost);
+
         }
 
 

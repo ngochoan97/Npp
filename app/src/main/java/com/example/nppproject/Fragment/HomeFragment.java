@@ -8,13 +8,17 @@ import android.os.Bundle;
 
 import androidx.constraintlayout.solver.GoalRow;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -45,15 +49,19 @@ public class HomeFragment extends Fragment {
     SQLHelper sqlHelper;
     Context mContext;
     private static ArrayList<PostEntity> mListPost;
+    private static ArrayList<PostEntity> mListPost2;
     RecyclerView rvPost;
     PostAdapter postAdapter;
     ProgressBar progressBar;
-
+    TextView tvTitleTop,tvTimeTop;
+    ImageView imgTop;
+    LinearLayout llTop;
     private static final String TAG = "HomeFragment";
     static String urlRss;
     PublicMethod publicMethod= new PublicMethod();
     public HomeFragment() {
         // Required empty public constructor
+
     }
 
     public static HomeFragment newInstance(String rssUrl) {
@@ -74,24 +82,39 @@ public class HomeFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         try {
             urlRss = getArguments().getString("rssUrl");
+            Log.d(TAG, "onCreateView: link :  "+urlRss);
         }catch (Exception e){
             urlRss = Globals.URL_HOME;
         }
-
+        try {
+            AllPopBackStack();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        llTop=view.findViewById(R.id.llTop);
+        tvTimeTop=view.findViewById(R.id.tvTimeTop);
+        tvTitleTop=view.findViewById(R.id.tvTitleTop);
+        imgTop=view.findViewById(R.id.imgTop);
       //  Toast.makeText(getActivity(), "" + urlRss, Toast.LENGTH_SHORT).show();
         rvPost = view.findViewById(R.id.rvHomePost);
-       
+       llTop.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               DetailFragment detailFragment=DetailFragment.newInstance(mListPost.get(0).getLink(),mListPost);
+               getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).addToBackStack("stack").commit();
+           }
+       });
         progressBar = view.findViewById(R.id.process);
         if (publicMethod.checkConnectInternet(getContext())==false)
         {Toast.makeText(getContext(), "Mất mạng rồi", Toast.LENGTH_SHORT).show();
 //            Glide.with(mContext).load(R.mipmap.crop).into(imgNetwork);
             NetWorkFragment netWorkFragment=NetWorkFragment.newInstance(urlRss);
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,netWorkFragment).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,netWorkFragment).addToBackStack("stack").commit();
         }
         else
         {
             //imgNetwork.setVisibility(View.GONE);
-            new RSSReader().execute();
+//            new RSSReader().execute();
         }
         return view;
     }
@@ -99,7 +122,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        if (publicMethod.checkConnectInternet(getContext())==false)
+        {Toast.makeText(getContext(), "Mất mạng rồi", Toast.LENGTH_SHORT).show();
+//            Glide.with(mContext).load(R.mipmap.crop).into(imgNetwork);
+            NetWorkFragment netWorkFragment=NetWorkFragment.newInstance(urlRss);
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,netWorkFragment).addToBackStack("stack").commit();
+        }
+        else
+        {
+            //imgNetwork.setVisibility(View.GONE);
+            new RSSReader().execute();
+        }
 
     }
 
@@ -119,7 +152,7 @@ public class HomeFragment extends Fragment {
             super.onPostExecute(aVoid);
 
 //            Log.d(TAG, "onPostExecute: " + mListPost.get(0).getTitle());
-            postAdapter = new PostAdapter(mListPost);
+            postAdapter = new PostAdapter(mListPost2);
 
             rvPost.setAdapter(postAdapter);
             postAdapter.notifyDataSetChanged();
@@ -137,7 +170,16 @@ public class HomeFragment extends Fragment {
 
                 }
             });
-            back();
+            try {
+                 tvTimeTop.setText(mListPost.get(0).getTime());
+                tvTitleTop.setText(mListPost.get(0).getTitle());
+                Glide.with(getActivity().getBaseContext()).load(mListPost.get(0).getUrlImg()).into(imgTop);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+//            back();
+
         }
     }
 
@@ -162,6 +204,7 @@ public class HomeFragment extends Fragment {
 
     public void parserXML() {
         mListPost = new ArrayList<>();
+        mListPost2 = new ArrayList<>();
         XMLDOMParser xmldomParser = new XMLDOMParser();
         Document document = xmldomParser.getDocument(getRSSFromURL(urlRss));
 
@@ -172,6 +215,11 @@ public class HomeFragment extends Fragment {
             postEntity.setTitle(xmldomParser.getValue(element, "title"));
             postEntity.setTime(xmldomParser.getValue(element, "pubDate"));
             postEntity.setLink(xmldomParser.getValue(element, "link"));
+
+            if(mListPost.size()>=1){
+
+                mListPost2.add(postEntity);
+            }
             mListPost.add(postEntity);
         }
         NodeList nodeDes = document.getElementsByTagName("description");
@@ -186,6 +234,7 @@ public class HomeFragment extends Fragment {
                     String des = node.getTextContent();
                     mListPost.get(count).setDescription(des);
                     mListPost.get(count).setUrlImg(getUrlImgFromDes(des));
+                    Log.d(TAG, "parserXML: "+mListPost.get(count).getUrlImg());
                     count++;
                 }
             }
@@ -195,7 +244,7 @@ public class HomeFragment extends Fragment {
     public String getUrlImgFromDes(String des) {
         try{
             int start = des.lastIndexOf("https:");
-            int end = des.lastIndexOf("\"");
+            int end = des.lastIndexOf("\" >");
             String url = des.substring(start, end);
             return url;
         }catch (Exception e){
@@ -204,4 +253,59 @@ public class HomeFragment extends Fragment {
 
     }
     public void back(){getActivity().getSupportFragmentManager().popBackStack();}
+
+    public void AllPopBackStack() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+                fragmentManager.popBackStack();
+            }
+        }
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //  getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
+        Log.d(TAG, "onDestroyFragment: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyViewDetail: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStopDetail: ");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttachDetail: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPauseDetail: ");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetachDetail: ");
+//        AllPopBackStack();
+    }
+
+
 }

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,23 +43,18 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 //        Glide.with(mContext).load(R.mipmap.crop).into(holder.imgNetwork);
-        try {
-            PostEntity postEntity = mListPost.get(position);
-            if (position == 0) {
-                holder.tvTitleTop.setText(postEntity.getTitle());
-                holder.tvTimeTop.setText(postEntity.getTime());
-                Glide.with(mContext).load(postEntity.getUrlImg()).placeholder(R.drawable.ic_menu_share).into(holder.imgTop);
-            } else {
-                String title = postEntity.getTitle();
-                String urlImg = postEntity.getUrlImg();
-                String time = postEntity.getTime();
-                holder.tvTitle.setText(title);
-                holder.tvTime.setText(time);
-                Glide.with(mContext).load(urlImg).placeholder(R.drawable.ic_menu_share).into(holder.imgPost);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        PostEntity postEntity = mListPost.get(position);
+
+
+        String title = postEntity.getTitle();
+        String urlImg = postEntity.getUrlImg();
+        String time = postEntity.getTime();
+
+        holder.tvTitle.setText(title);
+        holder.tvTime.setText(time);
+        Glide.with(mContext).load(urlImg).placeholder(R.drawable.ic_menu_share).into(holder.imgPost);
+
 
     }
 
@@ -67,19 +65,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.MyViewHolder> 
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ImageView imgPost,imgTop,imgNetwork;
-        TextView tvTitle, tvTime,tvTimeTop,tvTitleTop;
+        ImageView imgPost, imgTop;
+        LinearLayout llItem;
+        TextView tvTitle, tvTime, tvTimeTop, tvTitleTop;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             imgPost = itemView.findViewById(R.id.imgPost);
             imgTop = itemView.findViewById(R.id.imgTop);
-
+            llItem = itemView.findViewById(R.id.llItem);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvTime = itemView.findViewById(R.id.tvTime);
             tvTimeTop = itemView.findViewById(R.id.tvTimeTop);
             tvTitleTop = itemView.findViewById(R.id.tvTitleTop);
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.scale_list);
+            itemView.startAnimation(animation);
         }
 
         @Override

@@ -10,6 +10,7 @@
     <string name="btn_Delete">Delete All</string>
 
     <string name="menu_home">Home</string>
+    <string name="menu_video">Video</string>
     <string name="menu_news">News</string>
     <string name="menu_world">World</string>
     <string name="menu_business">Business</string>

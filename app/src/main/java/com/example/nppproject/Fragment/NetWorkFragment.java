@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class NetWorkFragment extends Fragment {
         return fragment;
     }
 
+    private static final String TAG = "NetWorkFragment";
 
 
     @Override
@@ -48,20 +50,22 @@ public class NetWorkFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_net_work, container, false);
         btnConnect = view.findViewById(R.id.btnConnect);
         pgBar = view.findViewById(R.id.pgBar);
+        rssUrl = getArguments().getString("rssUrl");
         //imgNetWork = view.findViewById(R.id.imgNetwork);
         btnConnect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            NetWork();
+                NetWork();
             }
         });
+        Log.d(TAG, "onCreateView: " + rssUrl);
         return view;
     }
 
     public void NetWork() {
         if (publicMethod.checkConnectInternet(getContext()) == true) {
             HomeFragment homeFragment = HomeFragment.newInstance(rssUrl);
-            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
         }
     }
 

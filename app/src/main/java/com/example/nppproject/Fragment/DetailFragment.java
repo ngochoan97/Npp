@@ -1,10 +1,14 @@
 package com.example.nppproject.Fragment;
 
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,27 +43,29 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    TextView tvTitle, tvShortTitle, tvTime, tvContent,tvRelate;
+    TextView tvTitle, tvShortTitle, tvTime, tvContent, tvRelate;
     ImageView imgContent;
     PostAdapter postAdapter;
     RelateAdapter relateAdapter;
-    RecyclerView rvContent,rvRelate;
+    RecyclerView rvContent, rvRelate;
     ProgressBar progressBar;
     Toolbar toolbar;
     String saveDoc;
+
+
     SQLHelper sqlHelper;
 
-    private static ArrayList<PostEntity> mListPost=new ArrayList<>();
-     // private static ArrayList<ContentEntity> mListContent = new ArrayList<>();
+    private static ArrayList<PostEntity> mListPost = new ArrayList<>();
+    // private static ArrayList<ContentEntity> mListContent = new ArrayList<>();
 
     public static ContentEntity contentEntity = new ContentEntity();
     Element element;
 
-    public static DetailFragment newInstance(String url,ArrayList<PostEntity>mListPost) {
+    public static DetailFragment newInstance(String url, ArrayList<PostEntity> mListPost) {
 
         Bundle args = new Bundle();
         args.putString("url", url);
-        args.putSerializable("mListPost",mListPost);
+        args.putSerializable("mListPost", mListPost);
         DetailFragment fragment = new DetailFragment();
         fragment.setArguments(args);
         return fragment;
@@ -67,6 +73,7 @@ public class DetailFragment extends Fragment {
 
     public DetailFragment() {
         // Required empty public constructor
+
     }
 
 
@@ -74,7 +81,7 @@ public class DetailFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_detail, container, false);
-      //  Toast.makeText(getActivity(), "" + getArguments().getString("url"), Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(getActivity(), "" + getArguments().getString("url"), Toast.LENGTH_SHORT).show();
         tvContent = view.findViewById(R.id.tvContent);
         imgContent = view.findViewById(R.id.imgContent);
         rvContent = view.findViewById(R.id.rvDetail);
@@ -83,9 +90,9 @@ public class DetailFragment extends Fragment {
         tvTitle = view.findViewById(R.id.tvTitle);
         tvShortTitle = view.findViewById(R.id.tvShortTitle);
         tvTime = view.findViewById(R.id.tvTime);
-        tvRelate=view.findViewById(R.id.tvRelate);
-        toolbar=view.findViewById(R.id.toolbar);
-        mListPost= (ArrayList<PostEntity>) getArguments().getSerializable("mListPost");
+        tvRelate = view.findViewById(R.id.tvRelate);
+        toolbar = view.findViewById(R.id.toolbar);
+        mListPost = (ArrayList<PostEntity>) getArguments().getSerializable("mListPost");
 
         new HtmlReader().execute();
 
@@ -118,16 +125,16 @@ public class DetailFragment extends Fragment {
             ContentAdapter contentAdapter = new ContentAdapter(contentEntity.getContent());
             rvContent.setAdapter(contentAdapter);
             contentAdapter.notifyDataSetChanged();
-           
-            RelateAdapter relateAdapter=new RelateAdapter(mListPost);
+
+            RelateAdapter relateAdapter = new RelateAdapter(mListPost);
             rvRelate.setAdapter(relateAdapter);
             relateAdapter.notifyDataSetChanged();
             relateAdapter.setOnClickListener(new RelateAdapter.ClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    String url=mListPost.get(position).getLink();
-                    DetailFragment detailFragment=DetailFragment.newInstance(url,mListPost);
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,detailFragment).addToBackStack("stack").commit();
+                    String url = mListPost.get(position).getLink();
+                    DetailFragment detailFragment = DetailFragment.newInstance(url, mListPost);
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).addToBackStack("stack").commit();
                 }
             });
 //            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity().getBaseContext(),RecyclerView.VERTICAL,false);
@@ -159,7 +166,7 @@ public class DetailFragment extends Fragment {
         //Document document;
         try {
             Document document = Jsoup.connect(url).get();
-            saveDoc=document.html();
+            saveDoc = document.html();
             //document= Jsoup.connect(url).get();
             s = document.title();
 
@@ -219,7 +226,7 @@ public class DetailFragment extends Fragment {
                 }
                 contentEntity.setContent(mListContent);
                 Log.d("arr", "getHtml: " + mListContent);
-                sqlHelper= new SQLHelper(getContext());
+                sqlHelper = new SQLHelper(getContext());
                 sqlHelper.insertContent(s, saveDoc);
             }
 
@@ -230,6 +237,8 @@ public class DetailFragment extends Fragment {
         }
         Log.d("logd", "getHtml: ");
     }
+
+    private static final String TAG = "DetailFragment";
 //    public void parserHtml() {
 //        mListContent = new ArrayList<>();
 //
@@ -260,4 +269,63 @@ public class DetailFragment extends Fragment {
 //    }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+      //  getActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
+
+        Log.d(TAG, "onDestroyFragment: ");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResumeDetail: ");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroyViewDetail: ");
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStopDetail: ");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart: ");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        Log.d(TAG, "onAttachDetail: ");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPauseDetail: ");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        Log.d(TAG, "onDetachDetail: ");
+//        AllPopBackStack();
+    }
+
+    public void AllPopBackStack() {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+                fragmentManager.popBackStack();
+            }
+        }
+    }
 }

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
-
+    android:id="@+id/llItem"
     android:orientation="vertical">
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
@@ -12,27 +12,7 @@
     app:cardCornerRadius="@dimen/_5sdp"
     app:cardElevation="@dimen/_5sdp"
     android:layout_marginTop="@dimen/_5sdp"
-    ><LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
     >
-    <ImageView
-        android:id="@+id/imgTop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
-        android:id="@+id/tvTitleTop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="@dimen/_10sdp"/>
-
-    <TextView
-        android:id="@+id/tvTimeTop"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-</LinearLayout>
     <LinearLayout
 
         android:layout_width="match_parent"

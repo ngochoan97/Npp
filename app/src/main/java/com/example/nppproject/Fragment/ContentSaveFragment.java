@@ -170,4 +170,10 @@ public class ContentSaveFragment extends Fragment {
         }
 
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

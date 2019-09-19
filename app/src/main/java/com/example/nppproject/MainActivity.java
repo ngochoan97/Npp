@@ -8,9 +8,11 @@ import com.example.nppproject.Fragment.HomeFragment;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.nppproject.Fragment.SaveFragment;
+import com.example.nppproject.Fragment.VideoHomeFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -87,108 +89,135 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_home) {
-
+            Log.d("menu", "onNavigationItemSelected: 1111 ");
             // Handle the camera action
-            FragmentManager fragmentManager = getSupportFragmentManager();
+//            AllPopBackStack();
             HomeFragment homeFragment;
+
             homeFragment = HomeFragment.newInstance(Globals.URL_HOME);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
+            getSupportActionBar().setTitle(R.string.menu_home);
+
         } else if (id == R.id.nav_news) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment;
             homeFragment = HomeFragment.newInstance(Globals.URL_NEWS);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
+            getSupportActionBar().setTitle(R.string.menu_news);
+        } else if (id == R.id.nav_video) {
+
+            VideoHomeFragment videoHomeFragment;
+            videoHomeFragment=VideoHomeFragment.newInstance(Globals.URL_HOTVIDEO);
+            fragmentManager.beginTransaction().replace(R.id.container,videoHomeFragment).commit();
+            getSupportActionBar().setTitle(R.string.menu_video);
 
         } else if (id == R.id.nav_world) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_WORLD);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
+            getSupportActionBar().setTitle(R.string.menu_world);
 
         } else if (id == R.id.nav_business) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_BUSINESS);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_business);
 
         } else if (id == R.id.nav_startup) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_STARTUP);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_startup);
         } else if (id == R.id.nav_entertainment) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_ENTERTAINMENT);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
+            getSupportActionBar().setTitle(R.string.menu_entertainment);
 
         } else if (id == R.id.nav_sport) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_SPORT);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_sport);
         } else if (id == R.id.nav_law) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_LAW);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_law);
         } else if (id == R.id.nav_education) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_EDUCATION);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
         } else if (id == R.id.nav_health) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_HEALTH);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_health);
         } else if (id == R.id.nav_life) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_LIFE);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_life);
         } else if (id == R.id.nav_travel) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_TRAVEL);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_travel);
         } else if (id == R.id.nav_science) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_SCIENCE);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_science);
         } else if (id == R.id.nav_digitizing) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_DIGITALIZE);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_digitalize);
         } else if (id == R.id.nav_car) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_CAR);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_car);
         } else if (id == R.id.nav_comment) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_COMMENT);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_comment);
         } else if (id == R.id.nav_talk) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_TALK);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_talk);
         } else if (id == R.id.nav_laugh) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
+
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_LAUGH);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
-
+            getSupportActionBar().setTitle(R.string.menu_laugh);
         } else if (id == R.id.nav_send) {
-
+            AllPopBackStack();
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void AllPopBackStack() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+                fragmentManager.popBackStack();
+            }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

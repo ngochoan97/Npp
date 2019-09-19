@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,7 @@ public class SaveFragment extends Fragment {
     RecyclerView rcvSave;
     SQLHelper sqlHelper;
     List<ContentSaveEntity> ListSave;
+    Button btnDelete;
 
     public static SaveFragment newInstance() {
 
@@ -42,7 +44,14 @@ public class SaveFragment extends Fragment {
         rcvSave.setLayoutManager(layoutManager);
         sqlHelper = new SQLHelper(getContext());
         ListSave = sqlHelper.getAllContent();
+        btnDelete=view.findViewById(R.id.btnDelAll);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sqlHelper.deleteAll();
 
+            }
+        });
         SaveAdapter adapter = new SaveAdapter(getContext(), ListSave);
         rcvSave.setAdapter(adapter);
         adapter.setOnClickListener(new SaveAdapter.ClickListener() {
@@ -50,11 +59,10 @@ public class SaveFragment extends Fragment {
             public void onItemClick(View view, int position) {
                 Toast.makeText(getContext(), "đã click", Toast.LENGTH_SHORT).show();
                 ContentSaveFragment contentSaveFragment = ContentSaveFragment.newInstance(ListSave.get(position).getLink());
-                //replace leen id gi the ? id hay layout ? id cua layout chu // fragment replace leen frame layout
-                //can id cua layout day ??
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, contentSaveFragment, contentSaveFragment.getTag()).addToBackStack("stack").commit();
             }
         });
+        adapter.notifyDataSetChanged();
         return view;
     }
 }

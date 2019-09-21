@@ -85,6 +85,11 @@
 
     <item android:title="Communicate">
         <menu>
+            <item android:id="@+id/NightMode"
+                android:title="NightMode"
+                android:icon="@mipmap/daynight">
+
+            </item>
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"

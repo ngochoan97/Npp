@@ -1,10 +1,14 @@
 package com.example.nppproject;
 
+import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.nppproject.Fragment.HomeFragment;
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 
@@ -23,8 +27,12 @@ import androidx.fragment.app.FragmentManager;
 
 import android.view.Menu;
 
+import java.util.Map;
+import java.util.Set;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +40,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        SharedPreferences sharedPreferences = getSharedPreferences("isNightMode",Context.MODE_PRIVATE);
+        isNightMode = sharedPreferences.getBoolean("isNightModeVar",false);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -112,8 +121,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_video) {
 
             VideoHomeFragment videoHomeFragment;
-            videoHomeFragment=VideoHomeFragment.newInstance(Globals.URL_HOTVIDEO);
-            fragmentManager.beginTransaction().replace(R.id.container,videoHomeFragment).commit();
+            videoHomeFragment = VideoHomeFragment.newInstance(Globals.URL_HOTVIDEO);
+            fragmentManager.beginTransaction().replace(R.id.container, videoHomeFragment).commit();
             getSupportActionBar().setTitle(R.string.menu_video);
 
         } else if (id == R.id.nav_world) {
@@ -198,6 +207,19 @@ public class MainActivity extends AppCompatActivity
             HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_LAUGH);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
             getSupportActionBar().setTitle(R.string.menu_laugh);
+
+        } else if (id == R.id.NightMode) {
+            if (isNightMode == true) {
+                SharedPreferences sharedPreferences = getSharedPreferences("isNightMode",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isNightModeVar", false).commit();
+                getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            } else {
+              SharedPreferences sharedPreferences = getSharedPreferences("isNightMode",Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("isNightModeVar", true).commit();
+                getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            }
         } else if (id == R.id.nav_send) {
             AllPopBackStack();
         }
@@ -206,6 +228,8 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    boolean isNightMode;
 
     public void AllPopBackStack() {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -219,5 +243,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 }

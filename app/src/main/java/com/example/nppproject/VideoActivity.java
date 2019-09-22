@@ -17,13 +17,14 @@ import com.example.nppproject.Entity.VideoEntity;
 public class VideoActivity extends AppCompatActivity {
     VideoView vvVideo;
     ImageButton btnPre, btnNext, btnPlay, btnPause, btnRew, btnFfwd;
-LinearLayout mediaControl;
+    LinearLayout mediaControl;
     Button btnFullScreen;
     String url;
     ConstraintLayout videoContainer;
     Toolbar toolbar;
     int currentPosition;
-boolean isVideoPlay;
+    boolean isVideoPlay;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,9 +39,9 @@ boolean isVideoPlay;
         btnPause = findViewById(R.id.pause);
         btnPre = findViewById(R.id.prev);
         btnRew = findViewById(R.id.rew);
-        mediaControl=findViewById(R.id.mediaControl);
+        mediaControl = findViewById(R.id.mediaControl);
         btnFullScreen = findViewById(R.id.fullScreen1);
-        videoContainer=findViewById(R.id.videoContainer);
+        videoContainer = findViewById(R.id.videoContainer);
 
 
         videoContainer.setOnClickListener(new View.OnClickListener() {
@@ -55,7 +56,7 @@ boolean isVideoPlay;
         vvVideo.setVideoPath(url);
         vvVideo.seekTo(currentPosition);
         vvVideo.start();
-        isVideoPlay=true;
+        isVideoPlay = true;
         hideMediaControl();
         btnFullScreen.setOnClickListener(new View.OnClickListener() {
             @Override

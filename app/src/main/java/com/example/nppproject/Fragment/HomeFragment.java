@@ -160,8 +160,8 @@ public class HomeFragment extends Fragment {
             postAdapter.setOnItemClickListener(new PostAdapter.ClickListener() {
                 @Override
                 public void onItemClick(View view, int position) {
-                    String url = mListPost.get(position).getLink();
-                    String title= mListPost.get(position).getTitle();
+                    String url = mListPost.get(position+1).getLink();
+                    String title= mListPost.get(position+1).getTitle();
                     //Toast.makeText(getActivity(), "đã click", Toast.LENGTH_SHORT).show();
                     DetailFragment detailFragment = DetailFragment.newInstance(url,mListPost);
                     getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, detailFragment).addToBackStack("stack").commit();

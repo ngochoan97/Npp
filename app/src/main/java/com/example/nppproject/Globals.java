@@ -24,4 +24,11 @@ public class Globals {
 
 
 
+    public static final String URL_LINKWT = "https://api.openweathermap.org/data/2.5/weather?q=";
+    public static final String URL_KEYAPI = "&appid=46839c1c67b7d721ddff1bd3009e26b2";
+
+
+
+
+
 }

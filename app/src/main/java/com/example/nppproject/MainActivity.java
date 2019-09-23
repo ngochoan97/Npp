@@ -1,21 +1,21 @@
 package com.example.nppproject;
 
 import android.Manifest;
-import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
 import com.example.nppproject.Fragment.HomeFragment;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
@@ -27,6 +27,7 @@ import android.view.MenuItem;
 
 import com.example.nppproject.Fragment.SaveFragment;
 import com.example.nppproject.Fragment.VideoHomeFragment;
+import com.example.nppproject.Fragment.WeatherFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -37,9 +38,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.view.Menu;
 import android.view.View;
-import android.widget.Magnifier;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -49,9 +48,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -110,7 +106,17 @@ public class MainActivity extends AppCompatActivity
 
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
-            super.onBackPressed();
+popAllBackStack();
+FragmentManager fragmentManager=getSupportFragmentManager();
+HomeFragment homeFragment=HomeFragment.newInstance(Globals.URL_HOME);
+fragmentManager.beginTransaction().replace(R.id.container,homeFragment,homeFragment.getTag()).commit();
+new AlertDialog.Builder(this).setIcon(R.drawable.ic_exit).setTitle("Thoát ?").setMessage("Bạn có muốn thoát ").setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+    @Override
+    public void onClick(DialogInterface dialogInterface, int i) {
+finish();
+    }
+})
+.setNegativeButton("Quay lại",null).show();
         } else {
             getSupportFragmentManager().popBackStack();
         }
@@ -267,7 +273,15 @@ public class MainActivity extends AppCompatActivity
                 editor.putBoolean("isNightModeVar", true).commit();
                 getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
-        } else if (id == R.id.nav_send) {
+
+    } else if (id == R.id.nav_wearther) {
+            WeatherFragment weatherFragment =new WeatherFragment();
+
+        fragmentManager.beginTransaction().replace(R.id.container, weatherFragment).addToBackStack("stack").commit();
+        getSupportActionBar().setTitle(R.string.menu_weather);
+
+    }
+        else if (id == R.id.nav_send) {
             AllPopBackStack();
         }
 
@@ -294,7 +308,7 @@ public class MainActivity extends AppCompatActivity
         if (gps.canGetLocation()) {
             gps.getLatitude();
             gps.getLongitude();
-            Toast.makeText(this, "" + gps.getLongitude(), Toast.LENGTH_SHORT).show();
+     //       Toast.makeText(this, "" + gps.getLongitude(), Toast.LENGTH_SHORT).show();
             Log.d("TAG123", "onCreate: " + gps.getLongitude());
 //            tvLogLat.setText(gps.getLocation() + " " + gps.getLatitude());
             longit = gps.getLongitude();
@@ -343,6 +357,7 @@ public class MainActivity extends AppCompatActivity
         protected Void doInBackground(Void... voids) {
             doGetData();
             getMain();
+
             return null;
         }
 
@@ -362,7 +377,7 @@ public class MainActivity extends AppCompatActivity
         try {
             String jsonNew = json.substring(4);
             JSONObject jsonObject = new JSONObject(jsonNew);
-            Log.d(TAG, "getMain: " + json);
+
             JSONObject mainEntity = jsonObject.getJSONObject("main");
             main.setTemp(mainEntity.getString("temp"));
             main.setPressure(mainEntity.getString("pressure"));
@@ -403,6 +418,13 @@ public class MainActivity extends AppCompatActivity
             }
         }).start();
     }
-
+    public void popAllBackStack() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            for (int i = 0; i < fragmentManager.getBackStackEntryCount(); i++) {
+                fragmentManager.popBackStack();
+            }
+        }
+    }
     private static final String TAG = "MainActivity123";
 }

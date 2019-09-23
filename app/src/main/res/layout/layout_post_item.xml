@@ -26,34 +26,37 @@
 
 
         />
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
 
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:layout_gravity="center">
+   >
     <TextView
-        android:layout_marginLeft="@dimen/_5sdp"
+
         android:id="@+id/tvTitle"
-        android:textSize="@dimen/_10sdp"
+        android:textSize="@dimen/_12sdp"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/imgPost"
+     app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
          />
 
     <TextView
         android:id="@+id/tvTime"
         android:textStyle="italic"
-        android:textSize="@dimen/_7sdp"
+        android:textSize="@dimen/_9sdp"
         android:gravity="right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_marginLeft="@dimen/_5sdp"
-        android:layout_toRightOf="@id/imgPost"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+
         />
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
 </LinearLayout>

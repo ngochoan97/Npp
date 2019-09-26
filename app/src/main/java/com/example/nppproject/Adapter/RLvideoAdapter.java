@@ -13,25 +13,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.nppproject.Entity.VideoEntity;
 import com.example.nppproject.R;
-import com.example.nppproject.interfaces.ClickListener;
 
 import java.util.ArrayList;
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder> {
+public class RLvideoAdapter extends RecyclerView.Adapter<RLvideoAdapter.MyViewHolder> {
     private ArrayList<VideoEntity> mListVideo;
     Context mContext;
-    ClickListener clickListener;
+    VideoAdapter.ClickListener clickListener;
 
-
-    public VideoAdapter(ArrayList<VideoEntity> mListVideo) {
+    public RLvideoAdapter(ArrayList<VideoEntity> mListVideo) {
         this.mListVideo = mListVideo;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_video, parent, false);
-
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rl_video, parent, false);
         mContext = parent.getContext();
         return new MyViewHolder(view);
     }
@@ -50,12 +47,10 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imgVideo;
         TextView tvTitleVD;
-
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
-            imgVideo = itemView.findViewById(R.id.imgVideo);
-            tvTitleVD = itemView.findViewById(R.id.tvTitleVD);
+            tvTitleVD=itemView.findViewById(R.id.tvTitleVD1);
+            imgVideo=itemView.findViewById(R.id.imgPostVD1);
             itemView.setOnClickListener(this);
         }
 
@@ -63,9 +58,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.MyViewHolder
         public void onClick(View view) {
             clickListener.onItemClick(getAdapterPosition(), view, false);
         }
-    }
 
-    public void setOnClickItemListener(ClickListener clickListener) {
+    }
+    public void setOnClickItemListener(VideoAdapter.ClickListener clickListener) {
         this.clickListener = clickListener;
     }
 

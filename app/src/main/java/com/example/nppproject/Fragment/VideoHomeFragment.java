@@ -16,10 +16,13 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
+import com.example.nppproject.Adapter.SliderAdapter;
 import com.example.nppproject.Adapter.VideoAdapter;
 import com.example.nppproject.Entity.VideoEntity;
 import com.example.nppproject.Globals;
 import com.example.nppproject.R;
+import com.github.ybq.android.spinkit.SpinKitView;
+import com.smarteist.autoimageslider.SliderView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +44,8 @@ public class VideoHomeFragment extends Fragment {
     ArrayList<VideoEntity> mListVideo = new ArrayList<>();
     ArrayList<VideoEntity> mListSend = new ArrayList<>();
     String jsonCate = "";
+    SliderView sliderView;
+    SpinKitView loading;
 
     public static VideoHomeFragment newInstance(String urlHotvideo) {
 
@@ -62,17 +67,20 @@ public class VideoHomeFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_hotvideo, container, false);
-
+        loading= view.findViewById(R.id.loading);
+        loading.setVisibility(View.VISIBLE);
         try {
             urlHotvideo = getArguments().getString("urlHotvideo");
-       //     Log.d(TAG, "onCreateView: " + urlHotvideo);
+            //     Log.d(TAG, "onCreateView: " + urlHotvideo);
         } catch (Exception e) {
             urlHotvideo = Globals.URL_HOTVIDEO;
         }
         rvListVideo = view.findViewById(R.id.rvPostVD);
         // Inflate the layout for this fragment
         new JsonReader().execute();
-
+        sliderView = view.findViewById(R.id.toolbarIG);
+        SliderAdapter adapter = new SliderAdapter(getContext());
+        sliderView.setSliderAdapter(adapter);
         return view;
     }
 
@@ -88,7 +96,7 @@ public class VideoHomeFragment extends Fragment {
             int byteChar;
             while ((byteChar = is.read()) != -1) {
                 jsonCate += (char) byteChar;
-               // Log.d(TAG, "getJson: " + jsonCate);
+                // Log.d(TAG, "getJson: " + jsonCate);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,7 +127,7 @@ public class VideoHomeFragment extends Fragment {
                 mListSend.add(videoEntity);
             }
             Log.d(TAG, "onCreateView: " + mListVideo.get(0).getFile_mp4());
-            Log.d(TAG, "getListVideo: "+mListVideo.get(0).getTitle());
+            Log.d(TAG, "getListVideo: " + mListVideo.get(0).getTitle());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -139,6 +147,7 @@ public class VideoHomeFragment extends Fragment {
         }
 
         private static final String TAG = "JsonReader";
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
@@ -155,14 +164,15 @@ public class VideoHomeFragment extends Fragment {
                     url = videoEntity.getFile_mp4();
 
                     mListSend.remove(position);
-                   PlayVideoFragment playVideoFragment = PlayVideoFragment.newInstance(url,mListVideo,mListSend,videoEntity,position);
-                   getFragmentManager().beginTransaction().replace(R.id.container,playVideoFragment).addToBackStack("stack").commit();
-                    Log.d(TAG, "onItemClick: "+url);
+                    PlayVideoFragment playVideoFragment = PlayVideoFragment.newInstance(url, mListVideo, mListSend, videoEntity, position);
+                    getFragmentManager().beginTransaction().replace(R.id.container, playVideoFragment).addToBackStack("stack").commit();
+                    Log.d(TAG, "onItemClick: " + url);
 
                 }
 
             });
             videoAdapter.notifyDataSetChanged();
+            loading.setVisibility(View.GONE);
         }
     }
 }

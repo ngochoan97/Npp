@@ -38,6 +38,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -46,18 +47,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView tvLogLat, tvCity;
+    TextView tvLogLat, tvCity, tvDate, tvLoca;
     LocationManager locationManager;
     private double longit, latit;
     boolean runHumi = true;
     Handler handlerHumi;
     NavigationView navigationView;
+
     View header_view;
 
     @Override
@@ -65,8 +68,12 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         navigationView = findViewById(R.id.nav_view);
+
         header_view = navigationView.getHeaderView(0);
+
         tvCity = header_view.findViewById(R.id.tvCity);
+        tvDate = header_view.findViewById(R.id.tvDate);
+        tvLoca = header_view.findViewById(R.id.tvLoca);
         tvLogLat = header_view.findViewById(R.id.tvLogLat);
         Toolbar toolbar = findViewById(R.id.toolbar);
         new getJson().execute();
@@ -106,17 +113,17 @@ public class MainActivity extends AppCompatActivity
 
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
-popAllBackStack();
-FragmentManager fragmentManager=getSupportFragmentManager();
-HomeFragment homeFragment=HomeFragment.newInstance(Globals.URL_HOME);
-fragmentManager.beginTransaction().replace(R.id.container,homeFragment,homeFragment.getTag()).commit();
-new AlertDialog.Builder(this).setIcon(R.drawable.ic_exit).setTitle("Thoát ?").setMessage("Bạn có muốn thoát ").setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
-    @Override
-    public void onClick(DialogInterface dialogInterface, int i) {
-finish();
-    }
-})
-.setNegativeButton("Quay lại",null).show();
+            popAllBackStack();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            HomeFragment homeFragment = HomeFragment.newInstance(Globals.URL_HOME);
+            fragmentManager.beginTransaction().replace(R.id.container, homeFragment, homeFragment.getTag()).commit();
+            new AlertDialog.Builder(this).setIcon(R.drawable.ic_exit).setTitle("Thoát ?").setMessage("Bạn có muốn thoát ").setPositiveButton("Thoát", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    finish();
+                }
+            })
+                    .setNegativeButton("Quay lại", null).show();
         } else {
             getSupportFragmentManager().popBackStack();
         }
@@ -161,7 +168,7 @@ finish();
 //            AllPopBackStack();
             HomeFragment homeFragment;
 
-            homeFragment = HomeFragment.newInstance(Globals.URL_HOME);
+            homeFragment = HomeFragment.newInstance(Globals.URL_NEWS);
             fragmentManager.beginTransaction().replace(R.id.container, homeFragment).commit();
             getSupportActionBar().setTitle(R.string.menu_home);
 
@@ -274,14 +281,13 @@ finish();
                 getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
 
-    } else if (id == R.id.nav_wearther) {
-            WeatherFragment weatherFragment =new WeatherFragment();
+        } else if (id == R.id.nav_wearther) {
+            WeatherFragment weatherFragment = new WeatherFragment();
 
-        fragmentManager.beginTransaction().replace(R.id.container, weatherFragment).addToBackStack("stack").commit();
-        getSupportActionBar().setTitle(R.string.menu_weather);
+            fragmentManager.beginTransaction().replace(R.id.container, weatherFragment).addToBackStack("stack").commit();
+            getSupportActionBar().setTitle(R.string.menu_weather);
 
-    }
-        else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_send) {
             AllPopBackStack();
         }
 
@@ -308,7 +314,7 @@ finish();
         if (gps.canGetLocation()) {
             gps.getLatitude();
             gps.getLongitude();
-     //       Toast.makeText(this, "" + gps.getLongitude(), Toast.LENGTH_SHORT).show();
+            //       Toast.makeText(this, "" + gps.getLongitude(), Toast.LENGTH_SHORT).show();
             Log.d("TAG123", "onCreate: " + gps.getLongitude());
 //            tvLogLat.setText(gps.getLocation() + " " + gps.getLatitude());
             longit = gps.getLongitude();
@@ -365,7 +371,7 @@ finish();
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             TempC = Integer.parseInt(Math.round(((Double.parseDouble(main.getTemp()) - 273.15) * 10) / 10) + "");
-            tvCity.setText(TempC+"°C");
+            tvCity.setText(TempC + "°C");
             Log.d("lol123", "onPostExecute: " + main.getHumidity());
         }
     }
@@ -405,7 +411,20 @@ finish();
                                 Calendar calendar = Calendar.getInstance();
                                 int hour = calendar.get(Calendar.HOUR_OF_DAY);
                                 int minute = calendar.get(Calendar.MINUTE);
+                                int date = calendar.get(calendar.DATE);
+                                int month = calendar.get(calendar.MONTH);
+                                int year = calendar.get(calendar.YEAR);
+                                tvDate.setText(date + "/" + month + "/" + year);
+
                                 tvLogLat.setText(hour + " : " + minute);
+                                tvLoca.setText("Hà Nội");
+                                if (hour < 18) {
+                                    header_view.setBackgroundResource(R.drawable.bau_troi);
+
+                                } else {
+                                    header_view.setBackgroundResource(R.drawable.night);
+                                }
+
                                 // new getJson().execute();
 //                                tvCity.setText(main.getTemp());
 //                                Log.d(TAG, "run: "+main.getHumidity());
@@ -418,6 +437,7 @@ finish();
             }
         }).start();
     }
+
     public void popAllBackStack() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         if (fragmentManager.getBackStackEntryCount() > 0) {
@@ -426,5 +446,6 @@ finish();
             }
         }
     }
+
     private static final String TAG = "MainActivity123";
 }

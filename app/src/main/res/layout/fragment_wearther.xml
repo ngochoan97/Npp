@@ -14,7 +14,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:orientation="vertical">
 
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="#ffffff"
-            android:text="range of temperature fluctuation"
+            android:text="Phạm vi dao động của nhiệt đô"
             android:textSize="@dimen/_18sdp" />
 
         <LinearLayout
@@ -69,10 +69,7 @@
                     android:textColor="#ffffff"
                     android:textSize="@dimen/_20sdp" />
 
-                <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:background="@mipmap/bot" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -92,10 +89,7 @@
 
                     />
 
-                <ImageView
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:background="@mipmap/top" />
+
             </LinearLayout>
         </LinearLayout>
 

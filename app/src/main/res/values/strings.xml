@@ -7,28 +7,28 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Bài viết đã đọc</string>
     <string name="btn_Connect">Connect</string>
-    <string name="btn_Delete">Delete All</string>
+    <string name="btn_Delete">Xóa Tất cả</string>
 
-    <string name="menu_home">Home</string>
+    <string name="menu_home">Trang chủ</string>
     <string name="menu_video">Video</string>
-    <string name="menu_news">News</string>
-    <string name="menu_world">World</string>
-    <string name="menu_business">Business</string>
+    <string name="menu_news">Tin Mới</string>
+    <string name="menu_world">Thế Giới</string>
+    <string name="menu_business">Kinh Doanh</string>
     <string name="menu_startup">StartUP</string>
-    <string name="menu_entertainment">Entertainment</string>
-    <string name="menu_sport">Sport</string>
-    <string name="menu_law">Law</string>
-    <string name="menu_education">Education</string>
-    <string name="menu_health">Health</string>
-    <string name="menu_life">Life</string>
-    <string name="menu_travel">Travel</string>
-    <string name="menu_science">Science</string>
-    <string name="menu_digitalize">Digitalize</string>
-    <string name="menu_car">Car and Motobike</string>
-    <string name="menu_comment">Comment</string>
-    <string name="menu_talk">Confided</string>
-    <string name="menu_laugh">Laugh</string>
-    <string name="menu_weather">Weather</string>
+    <string name="menu_entertainment">Giải Trí</string>
+    <string name="menu_sport">Thể Thao</string>
+    <string name="menu_law">Luật Pháp</string>
+    <string name="menu_education">Giáo Dục</string>
+    <string name="menu_health">Sức Khỏe</string>
+    <string name="menu_life">Cuộc Sống</string>
+    <string name="menu_travel">Du Lịch</string>
+    <string name="menu_science">Khoa Học</string>
+    <string name="menu_digitalize">Số Hóa</string>
+    <string name="menu_car">Xe Cộ</string>
+    <string name="menu_comment">Bình Luận</string>
+    <string name="menu_talk">Tâm Sự</string>
+    <string name="menu_laugh">Cười</string>
+    <string name="menu_weather">Thời Tiết</string>
 
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
@@ -36,7 +36,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
-    <string name="tv_relate">Related news</string>
+    <string name="tv_relate">Bài Viết Liên Quan</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

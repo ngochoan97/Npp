@@ -92,7 +92,8 @@
             </item>
             <item
                 android:id="@+id/nav_wearther"
-                android:title="Wearther"
+                android:title="@string/menu_weather"
+                android:icon="@mipmap/weather"
                 ></item>
             <item
                 android:id="@+id/nav_share"

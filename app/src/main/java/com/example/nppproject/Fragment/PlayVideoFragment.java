@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.example.nppproject.Adapter.RLvideoAdapter;
 import com.example.nppproject.Adapter.VideoAdapter;
 import com.example.nppproject.Entity.VideoEntity;
 import com.example.nppproject.MainActivity;
@@ -106,7 +107,7 @@ public class PlayVideoFragment extends Fragment {
             btnNext = view.findViewById(R.id.next);
             videoContainer = view.findViewById(R.id.videoContainer);
             btnFullScreen = view.findViewById(R.id.fullScreen1);
-            final VideoAdapter videoAdapter = new VideoAdapter(mListSend);
+            final RLvideoAdapter videoAdapter = new RLvideoAdapter(mListSend);
             rvRelateVideo.setAdapter(videoAdapter);
             videoAdapter.notifyDataSetChanged();
 
